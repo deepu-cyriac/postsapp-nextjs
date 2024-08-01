@@ -2,8 +2,9 @@
 //check for server-only npm package in next.js docs
 //it can be used for better security & ensure the code only runs on server
 import { redirect } from "next/navigation";
-import { storePost } from "@/lib/posts";
+import { storePost, updatePostLikeStatus } from "@/lib/posts";
 import { uploadImage } from "@/lib/cloudinary";
+import { revalidatePath } from "next/cache";
 
 //this is used to define server actions inside its own file
 //server actions can be organized to a folder in actions folder(any name)
@@ -53,4 +54,9 @@ export async function createPost(prevState, formData) {
   });
 
   redirect("/feed");
+}
+
+export async function togglePostLikeStatus(postId) {
+  await updatePostLikeStatus(postId, 2);
+  revalidatePath("/", "layout"); //to refresh cache when page data changes
 }
