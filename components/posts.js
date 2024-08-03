@@ -38,6 +38,7 @@ function Post({ post, action }) {
 }
 
 export default function Posts({ posts }) {
+  //useOptimistic function first updated the ui as the changes are immediately visible, then updates the db
   const [optimisticPosts, updateOptimisticPosts] = useOptimistic(
     posts,
     (prevPosts, updatedPostId) => {
